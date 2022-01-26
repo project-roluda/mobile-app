@@ -19,15 +19,21 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>{this.state.accountData}</Text>
+        <Text style={styles.header}>{this.state.countDisplay}</Text>
       </View>
     )
   }
 
   showData() {
-    getGitHubAccountData()
-    .then(data => {
-      this.setState({accountData: JSON.stringify(data)})
-    })
+    let count = 0
+    let interval = setInterval(() => {
+      getGitHubAccountData()
+      .then(data => {
+        this.setState({accountData: JSON.stringify(data)})
+        this.setState({countDisplay: count})
+      })
+      count += 1
+    }, 500)
 
   }
 
@@ -43,7 +49,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    fontSize: 10,
+    fontSize: 18,
     textAlign: 'center',
     margin: 10,
   }
