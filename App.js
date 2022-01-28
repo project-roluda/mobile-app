@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import getServerData from './src/testGet';
 import Result from './src/result';
 import BigText from './src/displayText'
+import Treatment from './src/treatment';
 
 export default class App extends Component {
   constructor() {
@@ -57,6 +58,10 @@ export default class App extends Component {
               <Text style={styles.header}>Results</Text>
               {diagnostic_items}
             </View>
+            <View style={styles.container}>
+            <Text style={styles.header}>Recommended Treatment</Text>
+            <Treatment treatment={this.state.treatments}/>
+            </View>
           </ScrollView>
         </SafeAreaView>
 
@@ -86,6 +91,8 @@ export default class App extends Component {
         this.setState({pneumonia: data["diagnostics"]["Pneumonia"]})
         this.setState({urti: data["diagnostics"]["URTI"]})
 
+        this.setState({treatments: data["treatment"]})
+
       })
       count += 1
     }, 500)
@@ -101,6 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    margin: 5,
   },
 
   header: {
