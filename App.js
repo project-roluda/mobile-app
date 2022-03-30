@@ -26,8 +26,23 @@ export default class App extends Component {
     let location = await Location.getCurrentPositionAsync({});
     this.setState({locationResult: JSON.stringify(location)});
     this.setState({mapRegion: {latitude: location.coords.latitude, longitude: location.coords.longitude}})
-    console.log("got location!")
+    console.log(">>> got location! <<<")
     console.log(this.state)
+
+    // do POST request to backend to send coordinates
+    
+    let geolocation_URL = ["https://roluda-test-v6.azurewebsites.net/set_coordinates/", this.state.mapRegion.latitude.toString(), "/", this.state.mapRegion.longitude.toString()].join();
+    // let geolocation_URL = ["http://192.168.2.12:5000/set_coordinates/", this.state.mapRegion.latitude.toString(), "/", this.state.mapRegion.longitude.toString()].join();
+
+    console.log(geolocation_URL)
+
+    fetch(geolocation_URL, 
+      {method: "GET"}
+    );
+
+    console.log("geolocation sent!")
+
+
   }
 
 
@@ -126,7 +141,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
+    // console.log('componentDidMount');
     this.getLocationAsync();
     this.showData()
     // this.playCustomSound();
@@ -179,7 +194,7 @@ export default class App extends Component {
 
     // let diagnostic_items = []
 
-    console.log('render');
+    // console.log('render');
     if (!(this.state.status === "result")){
       return (
         <View style={styles.container}>
@@ -193,7 +208,7 @@ export default class App extends Component {
 
     else {
 
-      console.log(this.state.diagnostics)
+      // console.log(this.state.diagnostics)
       // keys = Object.keys(this.state.diagnostics)
       // for (const key_ of keys) {
       //   diagnostic_items.push(<Result diagnostic={key_} value={this.state.diagnostics.key_} />)
@@ -239,9 +254,11 @@ export default class App extends Component {
         this.setState({status: data.status})
 
         if (prevStatus != this.state.status) {
-          console.log("--- change playing state ---")
-          console.log(data.status);
-          console.log("--- just logged status ---")
+          // console.log("--- change playing state ---")
+          // console.log(data.status);
+          // console.log("--- just logged status ---")
+          this.getLocationAsync();
+          console.log(">>>just sent geolocation<<<");
           this.playCustomSound(data.status);
           this.setState({isPlaying: false})
         }
@@ -263,6 +280,8 @@ export default class App extends Component {
 
         this.setState({treatments: data["treatment"]})
 
+        // console.log(">>> this state <<<")
+        // console.log(this.state)
 
       })
       count += 1
