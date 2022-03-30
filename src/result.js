@@ -19,25 +19,7 @@ class Result extends Component {
         )
     }
 }
-
-class Treatment extends Component {
-    render() {
-        return (
-            <View style={{
-                backgroundColor: "#f2f4ff",
-                width: 300,
-                padding: 10,
-                margin: 5,
-                justifyContent: 'center',
-                alignItems: 'left',
-                borderRadius: 10,
-            }}>
-                <Text style={styles.container}>{this.props.treatment}</Text>
-            </View>
-        )
-    }
-}
-
+ 
 const styles = StyleSheet.create({
     container: {
         fontSize: 18,
